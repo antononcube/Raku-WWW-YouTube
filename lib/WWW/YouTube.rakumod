@@ -36,5 +36,5 @@ sub youtube-transcript(Str:D $videoID) is export {
 
     # Return formatted transcript
     @lines .= join("\n");
-    return @lines.subst(/\'/, "'");
+    return @lines.subst( '&amp;#39;', '\''):g;
 }
