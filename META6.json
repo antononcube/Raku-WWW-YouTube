@@ -1,0 +1,23 @@
+{
+    "name": "WWW::YouTube",
+    "description": "Package for getting metadata and transcripts of YouTube videos.",
+    "version": "0.0.1",
+    "raku": "6.d",
+    "auth": "zef:antononcube",
+    "depends": [
+        "HTTP::UserAgent:ver<1.1.52+>:auth<github:sergot>"
+    ],
+    "provides": {
+        "WWW::YouTube": "lib/WWW/YouTube.rakumod"
+    },
+    "license": "Artistic-2.0",
+    "tags": [
+        "YouTube",
+        "captions",
+        "metadata",
+        "transcript",
+        "video"
+    ],
+    "api": "0",
+    "source-url": "https://github.com/antononcube/Raku-WWW-YouTube.git"
+}

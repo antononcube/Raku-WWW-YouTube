@@ -1,0 +1,15 @@
+use v6.d;
+use WWW::YouTube;
+use Test;
+
+plan *;
+
+## 1
+my $t = youtube-transcript('ewU83vHwN8Y');
+isa-ok $t, Str:D, 'got string';
+
+## 2
+say $t.chars;
+is 36_000 < $t.chars < 39_000, True, 'expected length';
+
+done-testing;
