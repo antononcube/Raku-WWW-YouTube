@@ -16,11 +16,8 @@ sub youtube-transcript(Str:D $videoID) is export {
 
     # Extract caption track URLs
     my @captionURLs = do with $page.match(/ '"captionTracks":[' (.+?) ']'/) { $0.Str };
-    note (:@captionURLs);
     @captionURLs .= map({ $_.Str.subst('\u0026', '&'):g });
     @captionURLs .= map({ with $_.match(/ '"baseUrl":"' (.+?) '"'/) { $0.Str } }).flat;
-
-    note (:@captionURLs);
 
     # Check if captions are found
     if !@captionURLs {
