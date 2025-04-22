@@ -22,7 +22,34 @@ zef install https://github.com/antononcube/Raku-WWW-YouTube.git
 
 -----
 
-## Usage examples
+## Usage
+
+Get the transcript of the YouTube video with identifier `$id`:
+
+`youtube-transcript($id)` 
+
+
+----
+
+## Details
+
+- `youtube-transcript` extracts the captions of the video, if they exist.
+
+- The transcript is returned as plain text.
+
+- The YouTube Data API has usage quotas.
+
+- Not all YouTube videos have automatic or manual captions. If no captions are available, the function returns a message indicating this.
+
+- `youtube-transcript` processes "captionTracks" of the YouTube Data API, which is a field of YouTube's video metadata.
+
+- The field "captionTracks" is an array of objects, where each object represents a single caption track (e.g., for a specific language or type).
+
+- From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
+
+-----
+
+## Examples
 
 ```raku
 use WWW::YouTube;
@@ -58,7 +85,7 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This discussion reviews the design of LLM graph, a tool for orchestrating LLM calls to create more complex workflows and asynchronous calls. The LLM graph uses nodes with prompts and dependencies, offering features like listable templates and conditional execution.  The design incorporates LLM function, node function, and test function, and the output is an association with results from each node.
+# This language design review for version 14.3 introduces LLM graphs, which orchestrate LLM calls for complex workflows and asynchronous execution. LLM graphs encapsulate LLM functions within nodes, allowing for chaining and conditional execution. The design includes LLM graph submit for instantiation and information retrieval, offering a powerful update to LLM synthesize and a stepping stone toward more agentic workflows.
 ```
 
 -----

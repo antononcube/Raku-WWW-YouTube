@@ -22,7 +22,34 @@ zef install https://github.com/antononcube/Raku-WWW-YouTube.git
 
 -----
 
-## Usage examples
+## Usage
+
+Get the transcript of the YouTube video with identifier `$id`:
+
+`youtube-transcript($id)` 
+
+
+----
+
+## Details
+
+- `youtube-transcript` extracts the captions of the video, if they exist.
+
+- The transcript is returned as plain text.
+
+- The YouTube Data API has usage quotas.
+
+- Not all YouTube videos have automatic or manual captions. If no captions are available, the function returns a message indicating this.
+
+- `youtube-transcript` processes "captionTracks" of the YouTube Data API, which is a field of YouTube's video metadata.
+
+- The field "captionTracks" is an array of objects, where each object represents a single caption track (e.g., for a specific language or type).
+
+- From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
+
+-----
+
+## Examples
 
 ```raku
 use WWW::YouTube;
