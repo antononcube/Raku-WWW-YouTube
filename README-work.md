@@ -35,7 +35,7 @@ say $transcript.substr(^300);
 Summarize using a Large Language Model (LLM):
 
 ```raku
-use LLM::Funcitons;
+use LLM::Functions;
 use LLM::Prompts;
 
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
