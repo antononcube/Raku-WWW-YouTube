@@ -85,7 +85,7 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This language design review for version 14.3 introduces LLM graphs, which orchestrate LLM calls for complex workflows and asynchronous execution. LLM graphs encapsulate LLM functions within nodes, allowing for chaining and conditional execution. The design includes LLM graph submit for instantiation and information retrieval, offering a powerful update to LLM synthesize and a stepping stone toward more agentic workflows.
+# This language design review for LLM graphs in version 14.3 introduces a system for orchestrating LLM calls, enabling complex workflows and asynchronous execution.  The core concept involves nodes with prompts that can depend on each other, offering a powerful update to LLM synthesize and a stepping stone to more agentic workflows.  The design includes features like "listable template" and "node function" for enhanced functionality, with an "LLM graph submit" function for execution.
 ```
 
 -----
@@ -103,6 +103,24 @@ youtube-transcript --help
 #   
 #     <id>    Video identifier
 ```
+
+-----
+
+## TODO
+
+- [ ] TODO Implementation
+  - [X] DONE Get transcript for a video identifier
+  - [ ] TODO Different output formats
+    - [X] DONE Text
+    - [ ] TODO JSON,
+    - [ ] TODO Pretty
+    - [ ] TODO WebVTT
+    - [ ] TODO SRT
+  - [ ] TODO Video metadata retrieval
+  - [ ] TODO Video identifiers for a playlist
+- [ ] TODO Documentation
+  - [X] DONE Basic usage
+  - [ ] TODO Transcripts retrieval for a playlist
 
 -----
 

@@ -82,6 +82,24 @@ youtube-transcript --help
 
 -----
 
+## TODO
+
+- [ ] TODO Implementation
+  - [X] DONE Get transcript for a video identifier
+  - [ ] TODO Different output formats
+    - [X] DONE Text
+    - [ ] TODO JSON,
+    - [ ] TODO Pretty
+    - [ ] TODO WebVTT
+    - [ ] TODO SRT
+  - [ ] TODO Video metadata retrieval
+  - [ ] TODO Video identifiers for a playlist
+- [ ] TODO Documentation
+  - [X] DONE Basic usage
+  - [ ] TODO Transcripts retrieval for a playlist
+
+-----
+
 ## References
 
 [AAf1] Anton Antonov,
