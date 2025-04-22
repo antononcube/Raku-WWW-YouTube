@@ -1,6 +1,8 @@
-# Raku-WWW-YouTube
+# WWW::YouTube
 
 Raku package for getting metadata and transcripts of YouTube videos.
+
+The Raku implementation closely follows the Wolfram Language function `YouTubeTranscript`, [AAf1]. 
 
 ------
 
@@ -32,7 +34,7 @@ say $transcript.chars;
 say $transcript.substr(^300);
 ```
 ```
-# 37996
+# 35820
 # hi everyone welcome to a wolf from
 # language design review for version 14.3
 # we are talking about LLM
@@ -56,14 +58,24 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This language design review focuses on LLM graphs, a new feature for version 14.3, designed to orchestrate LLM calls and support complex workflows, including asynchronous operations. The LLM graph allows users to chain LLM calls together, with nodes representing LLM functions, and can be applied asynchronously. Key features include the ability to define inputs, conditions, and outputs, along with the option for listable and template-based functionality.
+# This discussion reviews the design of LLM graph, a tool for orchestrating LLM calls to create more complex workflows and asynchronous calls. The LLM graph uses nodes with prompts and dependencies, offering features like listable templates and conditional execution.  The design incorporates LLM function, node function, and test function, and the output is an association with results from each node.
 ```
 
 -----
 
 ## CLI
 
-***TBD...***
+The package provides a Command Line Interface (CLI) script. Here is its usage message:
+
+```shell
+youtube-transcript --help
+```
+```
+# Usage:
+#   youtube-transcript <id> -- Get YouTube transcripts.
+#   
+#     <id>    Video identifier
+```
 
 -----
 

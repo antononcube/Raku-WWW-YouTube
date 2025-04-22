@@ -1,6 +1,8 @@
-# Raku-WWW-YouTube
+# WWW::YouTube
 
 Raku package for getting metadata and transcripts of YouTube videos.
+
+The Raku implementation closely follows the Wolfram Language function `YouTubeTranscript`, [AAf1]. 
 
 ------
 
@@ -45,7 +47,11 @@ llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 
 ## CLI
 
-***TBD...***
+The package provides a Command Line Interface (CLI) script. Here is its usage message:
+
+```shell
+youtube-transcript --help
+```
 
 -----
 
