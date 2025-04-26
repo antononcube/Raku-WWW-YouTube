@@ -1,0 +1,16 @@
+use v6.d;
+
+use WWW::YouTube;
+use Test;
+
+plan *;
+
+## 1
+my $vs = youtube-playlist('PLzImU_KHY9-JjAIg0AZXxHaMhJD6UXfNj');
+is $vs ~~ (Array | List | Seq), True, 'got an array, list, or sequence';
+
+## 2
+say $vs.elems;
+is 500 < $vs.elems, True, 'expected length';
+
+done-testing;
