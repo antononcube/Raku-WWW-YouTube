@@ -2,9 +2,11 @@ use v6.d;
 
 use HTTP::UserAgent;
 
+#| Get transcript of a video.
 sub youtube-transcript(Str:D $videoID) is export {
     # Construct video URL
-    my $url = "https://www.youtube.com/watch?v=$videoID";
+    my $pre = 'https://www.youtube.com/watch?v=';
+    my $url = $videoID.starts-with($pre) ?? $videoID !! $pre ~ $videoID;
 
     # Fetch the video page
     my $ua = HTTP::UserAgent.new;
@@ -37,4 +39,23 @@ sub youtube-transcript(Str:D $videoID) is export {
     # Return formatted transcript
     @lines .= join("\n");
     return @lines.subst( '&amp;#39;', '\''):g;
+}
+
+#| Get the video IDs of a playlist.
+sub youtube-playlist(Str:D $playlistID) is export {
+    # Construct video playlist URL
+    my $pre = 'https://www.youtube.com/watch?list=';
+    my $url = $playlistID.starts-with($pre) ?? $playlistID !! $pre ~ $playlistID;
+
+    # Fetch the video page
+    my $ua = HTTP::UserAgent.new;
+    my $page = try $ua.get($url).content;
+    if $! {
+        note "Cannot fetch video playlist page.";
+        return Nil;
+    }
+
+    my @videoIDs = do with $page.match(/ '"videoId":"' $<vid>=(.+?) '"' /):g { $/».<vid>».Str  };
+
+    return @videoIDs;
 }
