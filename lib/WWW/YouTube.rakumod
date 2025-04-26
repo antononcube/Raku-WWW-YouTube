@@ -45,7 +45,7 @@ sub youtube-transcript(Str:D $videoID) is export {
 sub youtube-playlist(Str:D $playlistID) is export {
     # Construct video playlist URL
     my $pre = 'https://www.youtube.com/watch?list=';
-    my $url = $playlistID.starts-with($pre) ?? $playlistID !! $pre ~ $playlistID;
+    my $url = $playlistID ~~ / 'https://www.youtube.com/' ('watch' | 'playlist') '?list=' / ?? $playlistID !! $pre ~ $playlistID;
 
     # Fetch the video page
     my $ua = HTTP::UserAgent.new;
