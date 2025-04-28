@@ -44,8 +44,12 @@ sub youtube-transcript(Str:D $videoID) is export {
 #| Get the video IDs of a playlist.
 sub youtube-playlist(Str:D $playlistID) is export {
     # Construct video playlist URL
-    my $pre = 'https://www.youtube.com/watch?list=';
-    my $url = $playlistID ~~ / 'https://www.youtube.com/' ('watch' | 'playlist') '?list=' / ?? $playlistID !! $pre ~ $playlistID;
+    my $pre = 'https://www.youtube.com/playlist?list=';
+    my $url = do if $playlistID ~~ / 'https://www.youtube.com/' ['watch' | 'playlist'] '?list=' / {
+        $playlistID.subst('/watch', '/playlist')
+    } else {
+        $pre ~ $playlistID
+    }
 
     # Fetch the video page
     my $ua = HTTP::UserAgent.new;
@@ -55,7 +59,7 @@ sub youtube-playlist(Str:D $playlistID) is export {
         return Nil;
     }
 
-    my @videoIDs = do with $page.match(/ '"videoId":"' $<vid>=(.+?) '"' /):g { $/».<vid>».Str  };
+    my @videoIDs = do with $page.match(/ '"playlistVideoRenderer":{"videoId":"' $<vid>=(.+?) '"' /):g { $/».<vid>».Str  };
 
-    return @videoIDs.unique;
+    return @videoIDs;
 }
