@@ -1,24 +1,25 @@
 use v6.d;
 
+#use lib <. lib>;
 use WWW::YouTube;
 use Test;
 
 plan *;
 
 ## 1
-my $vs1 = youtube-playlist('PLzImU_KHY9-JjAIg0AZXxHaMhJD6UXfNj');
+my $vs1 = youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN');
 is $vs1 ~~ (Array | List | Seq), True, 'got an array, list, or sequence';
 
 ## 2
-say $vs1.elems;
-is 500 < $vs1.elems, True, 'expected length';
+#say $vs1.elems;
+is 7 ≤ $vs1.elems, True, 'expected length';
 
 ## 3
-my $vs2 = youtube-playlist('https://www.youtube.com/watch?list=PLzImU_KHY9-JjAIg0AZXxHaMhJD6UXfNj');
+my $vs2 = youtube-playlist('https://www.youtube.com/watch?list=PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN');
 is $vs2 ~~ (Array | List | Seq), True, 'got an array, list, or sequence';
 
 ## 4
-say $vs2.elems;
-is 500 < $vs2.elems, True, 'expected length';
+#say $vs2.elems;
+is 7 ≤ $vs2.elems, True, 'expected length';
 
 done-testing;
