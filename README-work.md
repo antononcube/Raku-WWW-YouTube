@@ -106,15 +106,14 @@ youtube-playlist --help
 
 - [ ] TODO Implementation
   - [X] DONE Get transcript for a video identifier
-  - [ ] TODO Different output formats
+  - [X] DONE Video identifiers for a playlist
+  - [ ] TODO Video metadata retrieval
+  - [ ] TODO Different transcript output formats
     - [X] DONE Text
     - [ ] TODO JSON
     - [ ] TODO Pretty
     - [ ] TODO WebVTT
     - [ ] TODO SRT
-  - [ ] TODO Video identifiers for a playlist
-    - Only partially implemented: additional video IDs are included in the results.
-  - [ ] TODO Video metadata retrieval
 - [ ] TODO Documentation
   - [X] DONE Basic usage
   - [ ] TODO Transcripts retrieval for a playlist

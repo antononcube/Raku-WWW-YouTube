@@ -94,7 +94,7 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This design review introduces LLM graphs, which orchestrate LLM calls for complex workflows and asynchronous operations.  LLM graphs use nodes containing prompts or code, with dependencies between them, and offer both synchronous and asynchronous evaluation.  Key features include LLM function and node function for different types of operations, and a "listable" option for parallel processing of inputs.
+# This design review discusses a new feature, LLM graph, for version 14.3, which enables complex, asynchronous workflows by orchestrating calls to LLMs.  LLM graphs consist of nodes that can be LLM functions, node functions, or test functions, with dependencies defined through inputs and templates.  The review covers the syntax, functionality, and potential improvements, including the use of listable templates and a consistent approach to graph evaluation.
 ```
 
 ### Playlists
@@ -103,7 +103,7 @@ llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN')
 ```
 ```
-# (9xp1XWmJ_Wo S_3e7liz4KM 5qXgqqRZHow THh4fT0O7IY 15gn_V6ltyU q4iwzxwEts8 9Zq79uu_o5E Bh_QhurLUwU JFvrcd4VVkU -UMx24FWKGs OwjqdzuovY0 qT9neos0YDk kjEms2Mk0Js 4fezP875xOQ v6Hby8-TZSE _bLX5WfDQfM ARCb-UcNm1s ONcY0BM5EAg BYMqvahuFUQ cYM0qTPFyKc kYissYTEjww 0UN_HbOTTcI OQ3EvRcTS6c fwQrQyWC7R0 E7qhutQcWCY kQo3wpiUu6w JHO2Wk1b-Og 0uJl9q7jIf8)
+# [fwQrQyWC7R0 S_3e7liz4KM E7qhutQcWCY kQo3wpiUu6w JHO2Wk1b-Og 5qXgqqRZHow 0uJl9q7jIf8]
 ```
 
 -----
@@ -138,15 +138,14 @@ youtube-playlist --help
 
 - [ ] TODO Implementation
   - [X] DONE Get transcript for a video identifier
-  - [ ] TODO Different output formats
+  - [X] DONE Video identifiers for a playlist
+  - [ ] TODO Video metadata retrieval
+  - [ ] TODO Different transcript output formats
     - [X] DONE Text
     - [ ] TODO JSON
     - [ ] TODO Pretty
     - [ ] TODO WebVTT
     - [ ] TODO SRT
-  - [ ] TODO Video identifiers for a playlist
-    - Only partially implemented: additional video IDs are included in the results.
-  - [ ] TODO Video metadata retrieval
 - [ ] TODO Documentation
   - [X] DONE Basic usage
   - [ ] TODO Transcripts retrieval for a playlist
