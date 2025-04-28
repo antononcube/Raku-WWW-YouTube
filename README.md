@@ -28,6 +28,10 @@ Get the transcript of the YouTube video with identifier `$id`:
 
 `youtube-transcript($id)` 
 
+Get the video identifiers of the YouTube playlist with identifier `$id`:
+
+`youtube-playlist($id)`
+
 
 ----
 
@@ -47,9 +51,15 @@ Get the transcript of the YouTube video with identifier `$id`:
 
 - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
 
+- `youtube-playlist` extracts the video identifiers of a given YouTube playlist identifier.
+
+- Both `youtube-transript` and `youtube-playlist` work with strings that are identifiers or (full) URLs.
+
 -----
 
 ## Examples
+
+### Transcripts
 
 ```raku
 use WWW::YouTube;
@@ -61,19 +71,18 @@ say $transcript.chars;
 say $transcript.substr(^300);
 ```
 ```
-# 35820
-# hi everyone welcome to a wolf from
-# language design review for version 14.3
-# we are talking about LLM
-# graph so
-# okay so this is for the purpose of of
+# 36700
+# Hi everyone, welcome to a wolf from
+# language design review for version 14.3.
+# We are talking about LLM
+# graph. So,
+# okay. So this is for the purpose of of
 # knitting together LLM calls like LLM
-# function type calls
-# exactly
-# to support more complex workflows
+# function type calls.
+# Exactly.
+# To support more complex workflows
 # um and and to have asynchronous calls to
-# LLMs
-# yes to w
+# LLMs.
 ```
 
 Summarize using a Large Language Model (LLM):
@@ -85,14 +94,23 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This language design review for LLM graphs in version 14.3 introduces a system for orchestrating LLM calls, enabling complex workflows and asynchronous execution.  The core concept involves nodes with prompts that can depend on each other, offering a powerful update to LLM synthesize and a stepping stone to more agentic workflows.  The design includes features like "listable template" and "node function" for enhanced functionality, with an "LLM graph submit" function for execution.
+# This design review introduces LLM graphs, which orchestrate LLM calls for complex workflows and asynchronous operations.  LLM graphs use nodes containing prompts or code, with dependencies between them, and offer both synchronous and asynchronous evaluation.  Key features include LLM function and node function for different types of operations, and a "listable" option for parallel processing of inputs.
+```
+
+### Playlists
+
+```raku
+youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN')
+```
+```
+# (9xp1XWmJ_Wo S_3e7liz4KM 5qXgqqRZHow THh4fT0O7IY 15gn_V6ltyU q4iwzxwEts8 9Zq79uu_o5E Bh_QhurLUwU JFvrcd4VVkU -UMx24FWKGs OwjqdzuovY0 qT9neos0YDk kjEms2Mk0Js 4fezP875xOQ v6Hby8-TZSE _bLX5WfDQfM ARCb-UcNm1s ONcY0BM5EAg BYMqvahuFUQ cYM0qTPFyKc kYissYTEjww 0UN_HbOTTcI OQ3EvRcTS6c fwQrQyWC7R0 E7qhutQcWCY kQo3wpiUu6w JHO2Wk1b-Og 0uJl9q7jIf8)
 ```
 
 -----
 
 ## CLI
 
-The package provides a Command Line Interface (CLI) script. Here is its usage message:
+The package provides a Command Line Interface (CLI) scripts. Here are their usage messages:
 
 ```shell
 youtube-transcript --help
@@ -104,6 +122,16 @@ youtube-transcript --help
 #     <id>    Video identifier
 ```
 
+```shell
+youtube-playlist --help
+```
+```
+# Usage:
+#   youtube-playlist <id> -- Get video identifiers of a YouTube playlist.
+#   
+#     <id>    Video playlist identifier
+```
+
 -----
 
 ## TODO
@@ -112,12 +140,13 @@ youtube-transcript --help
   - [X] DONE Get transcript for a video identifier
   - [ ] TODO Different output formats
     - [X] DONE Text
-    - [ ] TODO JSON,
+    - [ ] TODO JSON
     - [ ] TODO Pretty
     - [ ] TODO WebVTT
     - [ ] TODO SRT
-  - [ ] TODO Video metadata retrieval
   - [ ] TODO Video identifiers for a playlist
+    - Only partially implemented: additional video IDs are included in the results.
+  - [ ] TODO Video metadata retrieval
 - [ ] TODO Documentation
   - [X] DONE Basic usage
   - [ ] TODO Transcripts retrieval for a playlist

@@ -28,6 +28,10 @@ Get the transcript of the YouTube video with identifier `$id`:
 
 `youtube-transcript($id)` 
 
+Get the video identifiers of the YouTube playlist with identifier `$id`:
+
+`youtube-playlist($id)`
+
 
 ----
 
@@ -47,9 +51,15 @@ Get the transcript of the YouTube video with identifier `$id`:
 
 - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
 
+- `youtube-playlist` extracts the video identifiers of a given YouTube playlist identifier.
+
+- Both `youtube-transript` and `youtube-playlist` work with strings that are identifiers or (full) URLs.
+
 -----
 
 ## Examples
+
+### Transcripts
 
 ```raku
 use WWW::YouTube;
@@ -70,14 +80,24 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 
+### Playlists
+
+```raku
+youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN')
+```
+
 -----
 
 ## CLI
 
-The package provides a Command Line Interface (CLI) script. Here is its usage message:
+The package provides a Command Line Interface (CLI) scripts. Here are their usage messages:
 
 ```shell
 youtube-transcript --help
+```
+
+```shell
+youtube-playlist --help
 ```
 
 -----
@@ -88,12 +108,13 @@ youtube-transcript --help
   - [X] DONE Get transcript for a video identifier
   - [ ] TODO Different output formats
     - [X] DONE Text
-    - [ ] TODO JSON,
+    - [ ] TODO JSON
     - [ ] TODO Pretty
     - [ ] TODO WebVTT
     - [ ] TODO SRT
-  - [ ] TODO Video metadata retrieval
   - [ ] TODO Video identifiers for a playlist
+    - Only partially implemented: additional video IDs are included in the results.
+  - [ ] TODO Video metadata retrieval
 - [ ] TODO Documentation
   - [X] DONE Basic usage
   - [ ] TODO Transcripts retrieval for a playlist
