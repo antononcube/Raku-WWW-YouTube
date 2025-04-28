@@ -57,5 +57,5 @@ sub youtube-playlist(Str:D $playlistID) is export {
 
     my @videoIDs = do with $page.match(/ '"videoId":"' $<vid>=(.+?) '"' /):g { $/».<vid>».Str  };
 
-    return @videoIDs;
+    return @videoIDs.unique;
 }
