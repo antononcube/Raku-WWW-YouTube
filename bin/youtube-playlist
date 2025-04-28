@@ -1,0 +1,11 @@
+#!/usr/bin/env raku
+use v6.d;
+
+use WWW::YouTube;
+
+#| Get video identifiers of a YouTube playlist.
+sub MAIN(
+        Str:D $id #= Video playlist identifier
+         ) {
+    say youtube-playlist($id);
+}
