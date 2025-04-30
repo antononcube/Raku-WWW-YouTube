@@ -1,0 +1,11 @@
+#!/usr/bin/env raku
+use v6.d;
+
+use WWW::YouTube;
+
+#| Get YouTube video metadata.
+sub MAIN(
+        Str:D $id #= Video identifier
+         ) {
+    say youtube-metadata($id);
+}
