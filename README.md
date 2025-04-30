@@ -37,33 +37,47 @@ Get the video identifiers of the YouTube playlist with identifier `$id`:
 
 ## Details
 
-- `youtube-transcript` extracts the captions of the video, if they exist.
-
-- The transcript is returned as plain text.
-
-- The YouTube Data API has usage quotas.
-
-- Not all YouTube videos have automatic or manual captions. If no captions are available, the function returns a message indicating this.
-
-- `youtube-transcript` processes "captionTracks" of the YouTube Data API, which is a field of YouTube's video metadata.
-
-- The field "captionTracks" is an array of objects, where each object represents a single caption track (e.g., for a specific language or type).
-
-- From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
+- `youtube-metdata` extracts the metadata associated with a YouTube video identifier.
 
 - `youtube-playlist` extracts the video identifiers of a given YouTube playlist identifier.
 
-- Both `youtube-transript` and `youtube-playlist` work with strings that are identifiers or (full) URLs.
+- `youtube-transcript` extracts the captions of the video, if they exist.
+
+  - The transcript is returned as plain text.
+
+  - The YouTube Data API has usage quotas.
+
+  - Not all YouTube videos have automatic or manual captions. If no captions are available, the function returns a message indicating this.
+
+- `youtube-transcript` processes "captionTracks" of the YouTube Data API, which is a field of YouTube's video metadata.
+
+  - The field "captionTracks" is an array of objects, where each object represents a single caption track (e.g., for a specific language or type).
+
+  - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
+
+- The subs `youtube-metadata`, `youtube-playlist`, and `youtube-transript` work with strings that are identifiers or (full) URLs.
 
 -----
 
 ## Examples
 
+### Metaadata
+
+Get the metadata associated with a YouTube video identifier:
+
+```raku, results=asis
+use WWW::YouTube;
+use Data::Translators;
+
+youtube-metadata('S_3e7liz4KM') 
+==> to-html(align => 'left')
+```
+<table border="1"><tr><th>view-count</th><td align=left>139 views</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr></table>
+
+
 ### Transcripts
 
 ```raku
-use WWW::YouTube;
-
 my $transcript = youtube-transcript('ewU83vHwN8Y');
 
 say $transcript.chars;
@@ -94,7 +108,7 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This design review discusses a new feature, LLM graph, for version 14.3, which enables complex, asynchronous workflows by orchestrating calls to LLMs.  LLM graphs consist of nodes that can be LLM functions, node functions, or test functions, with dependencies defined through inputs and templates.  The review covers the syntax, functionality, and potential improvements, including the use of listable templates and a consistent approach to graph evaluation.
+# This design review introduces LLM graphs, which orchestrate calls to large language models (LLMs) to support complex, asynchronous workflows.  LLM graphs use nodes containing prompts or code (node functions) and can chain LLM calls, with outputs defined by terminal nodes.  The discussion also covers features like listable templates, conditional execution, and the distinction between LLM functions and regular code functions, as well as the related concept of graph evaluation.
 ```
 
 ### Playlists
@@ -110,14 +124,14 @@ youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN')
 
 ## CLI
 
-The package provides a Command Line Interface (CLI) scripts. Here are their usage messages:
+The package provides Command Line Interface (CLI) scripts. Here are their usage messages:
 
 ```shell
-youtube-transcript --help
+youtube-metadata --help
 ```
 ```
 # Usage:
-#   youtube-transcript <id> -- Get YouTube transcripts.
+#   youtube-metadata <id> -- Get YouTube video metadata.
 #   
 #     <id>    Video identifier
 ```
@@ -132,6 +146,16 @@ youtube-playlist --help
 #     <id>    Video playlist identifier
 ```
 
+```shell
+youtube-transcript --help
+```
+```
+# Usage:
+#   youtube-transcript <id> -- Get YouTube transcripts.
+#   
+#     <id>    Video identifier
+```
+
 -----
 
 ## TODO
@@ -139,7 +163,7 @@ youtube-playlist --help
 - [ ] TODO Implementation
   - [X] DONE Get transcript for a video identifier
   - [X] DONE Video identifiers for a playlist
-  - [ ] TODO Video metadata retrieval
+  - [X] DONE Video metadata retrieval
   - [ ] TODO Different transcript output formats
     - [X] DONE Text
     - [ ] TODO JSON

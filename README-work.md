@@ -37,33 +37,45 @@ Get the video identifiers of the YouTube playlist with identifier `$id`:
 
 ## Details
 
-- `youtube-transcript` extracts the captions of the video, if they exist.
-
-- The transcript is returned as plain text.
-
-- The YouTube Data API has usage quotas.
-
-- Not all YouTube videos have automatic or manual captions. If no captions are available, the function returns a message indicating this.
-
-- `youtube-transcript` processes "captionTracks" of the YouTube Data API, which is a field of YouTube's video metadata.
-
-- The field "captionTracks" is an array of objects, where each object represents a single caption track (e.g., for a specific language or type).
-
-- From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
+- `youtube-metdata` extracts the metadata associated with a YouTube video identifier.
 
 - `youtube-playlist` extracts the video identifiers of a given YouTube playlist identifier.
 
-- Both `youtube-transript` and `youtube-playlist` work with strings that are identifiers or (full) URLs.
+- `youtube-transcript` extracts the captions of the video, if they exist.
+
+  - The transcript is returned as plain text.
+
+  - The YouTube Data API has usage quotas.
+
+  - Not all YouTube videos have automatic or manual captions. If no captions are available, the function returns a message indicating this.
+
+- `youtube-transcript` processes "captionTracks" of the YouTube Data API, which is a field of YouTube's video metadata.
+
+  - The field "captionTracks" is an array of objects, where each object represents a single caption track (e.g., for a specific language or type).
+
+  - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
+
+- The subs `youtube-metadata`, `youtube-playlist`, and `youtube-transript` work with strings that are identifiers or (full) URLs.
 
 -----
 
 ## Examples
 
+### Metaadata
+
+Get the metadata associated with a YouTube video identifier:
+
+```raku, results=asis
+use WWW::YouTube;
+use Data::Translators;
+
+youtube-metadata('S_3e7liz4KM') 
+==> to-html(align => 'left')
+```
+
 ### Transcripts
 
 ```raku
-use WWW::YouTube;
-
 my $transcript = youtube-transcript('ewU83vHwN8Y');
 
 say $transcript.chars;
@@ -90,14 +102,18 @@ youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN')
 
 ## CLI
 
-The package provides a Command Line Interface (CLI) scripts. Here are their usage messages:
+The package provides Command Line Interface (CLI) scripts. Here are their usage messages:
 
 ```shell
-youtube-transcript --help
+youtube-metadata --help
 ```
 
 ```shell
 youtube-playlist --help
+```
+
+```shell
+youtube-transcript --help
 ```
 
 -----
@@ -107,7 +123,7 @@ youtube-playlist --help
 - [ ] TODO Implementation
   - [X] DONE Get transcript for a video identifier
   - [X] DONE Video identifiers for a playlist
-  - [ ] TODO Video metadata retrieval
+  - [X] DONE Video metadata retrieval
   - [ ] TODO Different transcript output formats
     - [X] DONE Text
     - [ ] TODO JSON
