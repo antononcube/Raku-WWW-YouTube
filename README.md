@@ -72,7 +72,7 @@ use Data::Translators;
 youtube-metadata('S_3e7liz4KM') 
 ==> to-html(align => 'left')
 ```
-<table border="1"><tr><th>view-count</th><td align=left>139 views</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr></table>
+<table border="1"><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr><tr><th>view-count</th><td align=left>139 views</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr></table>
 
 
 ### Transcripts
@@ -108,7 +108,7 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This design review introduces LLM graphs, which orchestrate calls to large language models (LLMs) to support complex, asynchronous workflows.  LLM graphs use nodes containing prompts or code (node functions) and can chain LLM calls, with outputs defined by terminal nodes.  The discussion also covers features like listable templates, conditional execution, and the distinction between LLM functions and regular code functions, as well as the related concept of graph evaluation.
+# This design review introduces LLM graphs, which orchestrate LLM calls for complex workflows and asynchronous execution.  LLM graphs utilize nodes, each representing an LLM function, and can be chained together, with dependencies defined through an association syntax.  The system includes LLM graph submit for execution, and LLM graph information for static analysis, offering a powerful framework for building agentic workflows.
 ```
 
 ### Playlists
@@ -131,9 +131,10 @@ youtube-metadata --help
 ```
 ```
 # Usage:
-#   youtube-metadata <id> -- Get YouTube video metadata.
+#   youtube-metadata <id> [--format=<Str>] -- Get YouTube video metadata.
 #   
-#     <id>    Video identifier
+#     <id>              Video identifier
+#     --format=<Str>    Format of the result, one of 'json', 'raku', 'asis'. [default: 'json']
 ```
 
 ```shell
