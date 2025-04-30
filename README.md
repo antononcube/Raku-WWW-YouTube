@@ -171,6 +171,7 @@ youtube-transcript --help
     - [ ] TODO Pretty
     - [ ] TODO WebVTT
     - [ ] TODO SRT
+  - [ ] Implement versions of the subs using a YouTube API key
 - [ ] TODO Documentation
   - [X] DONE Basic usage
   - [ ] TODO Transcripts retrieval for a playlist
