@@ -2,10 +2,27 @@
 use v6.d;
 
 use WWW::YouTube;
+use JSON::Fast;
+
+my %*SUB-MAIN-OPTS =
+        :named-anywhere,
+        # allow named variables at any location
+        ;
 
 #| Get YouTube video metadata.
 sub MAIN(
-        Str:D $id #= Video identifier
+        Str:D $id, #= Video identifier
+        Str:D :$format = 'json', #= Format of the result, one of 'json', 'raku', 'asis'.
          ) {
-    say youtube-metadata($id);
+    my %md = youtube-metadata($id);
+    my $res = do given $format.lc {
+        when 'json' { to-json(%md) }
+        when $_ ∈ <raku perl6 code raku-code> { %md.raku }
+        when $_ ∈ <asis hash> { %md }
+        default {
+            note 'Unknown format.';
+            %md
+        }
+    }
+    say $res;
 }
