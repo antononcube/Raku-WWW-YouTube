@@ -123,6 +123,6 @@ youtube-playlist --help
 ## References
 
 [AAf1] Anton Antonov,
-[YouTubeTranscript](https://www.wolframcloud.com/obj/antononcube/DeployedResources/Function/YouTubeTranscript/),
+[YouTubeTranscript](https://resources.wolframcloud.com/FunctionRepository/resources/YouTubeTranscript/),
 (2025),
 [Wolfram Function Repository](https://resources.wolframcloud.com/FunctionRepository/).
