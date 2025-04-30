@@ -5,7 +5,8 @@
     "raku": "6.d",
     "auth": "zef:antononcube",
     "depends": [
-        "HTTP::UserAgent:ver<1.1.52+>:auth<github:sergot>"
+        "HTTP::UserAgent:ver<1.1.52+>:auth<github:sergot>",
+        "JSON::Fast:ver<0.19+>"
     ],
     "provides": {
         "WWW::YouTube": "lib/WWW/YouTube.rakumod"
