@@ -1,6 +1,9 @@
 use v6.d;
 
+unit module WWW::YouTube;
+
 use HTTP::UserAgent;
+use JSON::Fast;
 
 #==========================================================
 # Metadata
@@ -62,7 +65,13 @@ sub youtube-playlist(Str:D $playlistID) is export {
 #==========================================================
 
 #| Get transcript of a video.
-sub youtube-transcript(Str:D $videoID) is export {
+sub youtube-transcript(Str:D $videoID, :$format is copy = 'text') is export {
+
+    # Process format
+    if $format.isa(Whatever) { $format = 'text'}
+    die 'The value of $format is expected to be Whatever or one of "text", "dataset", "json"'
+    unless $format ~~ Str:D && $format.lc ∈ <text dataset json>;
+
     # Construct video URL
     my $pre = 'https://www.youtube.com/watch?v=';
     my $url = $videoID.starts-with($pre) ?? $videoID !! $pre ~ $videoID;
@@ -93,9 +102,19 @@ sub youtube-transcript(Str:D $videoID) is export {
         return Nil;
     }
 
-    my @lines = do with $transcript.match(/ '<text start=' .+? '>' $<content>=(.*?) '</text>' /):g { $/».<content>».Str };
+    return do given $format.lc {
 
-    # Return formatted transcript
-    @lines .= join("\n");
-    return @lines.subst( '&amp;#39;', '\''):g;
+        when 'text' {
+            my @lines = do with $transcript.match(/ '<text start=' .+? '>' $<content>=(.*?) '</text>' /):g { $/».<content>».Str };
+            @lines.join("\n").subst( '&amp;#39;', '\''):g
+        }
+
+        when $_ ∈ <dataset json> {
+            my @records = do with $transcript.match(/ '<text start="' $<time>=(.+?) '"' \s* 'dur="' $<duration>=(.+?) '">' $<content>=(.*?) '</text>' /):g {
+                $/.map({ %( time => $_<time>.Numeric, duration => $_<duration>.Numeric, content => $_<content>.Str.subst( '&amp;#39;', '\''):g ) })
+            };
+
+            $_ eq 'json' ?? to-json(@records) !! @records
+        }
+    }
 }
