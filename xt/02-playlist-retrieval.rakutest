@@ -8,6 +8,7 @@ plan *;
 
 ## 1
 my $vs1 = youtube-playlist('PLke9UbqjOSOiMnn8kNg6pb3TFWDsqjNTN');
+say $vs1;
 is $vs1 ~~ (Array | List | Seq), True, 'got an array, list, or sequence';
 
 ## 2
@@ -19,7 +20,14 @@ my $vs2 = youtube-playlist('https://www.youtube.com/watch?list=PLke9UbqjOSOiMnn8
 is $vs2 ~~ (Array | List | Seq), True, 'got an array, list, or sequence';
 
 ## 4
-#say $vs2.elems;
+say $vs2.elems;
 is 7 ≤ $vs2.elems, True, 'expected length';
+
+## 5
+# Does not pass, currently. More comprehensive implementation is needed.
+my $vs5 = youtube-playlist('PLzImU_KHY9-JjAIg0AZXxHaMhJD6UXfNj');
+say $vs5.elems;
+say $vs5;
+is 1200 ≤ $vs2.elems, True, 'expected length for a multi-age playlit';
 
 done-testing;
