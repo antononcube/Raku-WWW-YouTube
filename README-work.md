@@ -24,26 +24,36 @@ zef install https://github.com/antononcube/Raku-WWW-YouTube.git
 
 ## Usage
 
-Get the transcript of the YouTube video with identifier `$id`:
+`youtube-metadata($id)`
 
-`youtube-transcript($id)` 
-
-Get the video identifiers of the YouTube playlist with identifier `$id`:
+- Get the metadata of the YouTube video with identifier `$id`.
 
 `youtube-playlist($id)`
 
+- Get the video identifiers of the YouTube playlist with identifier `$id`.
+
+`youtube-transcript($id)`
+
+- Get the transcript of the YouTube video with identifier `$id`.
 
 ----
 
 ## Details
 
+- All three subs, `youtube-metadata`, `youtube-playlist`, and `youtube-transript`, 
+  work with strings that are identifiers or (full) URLs.
+
 - `youtube-metdata` extracts the metadata associated with a YouTube video identifier.
+  
+  - Returns a record (hashmap) with keys `<channel-title description publish-date title view-count>`. 
 
 - `youtube-playlist` extracts the video identifiers of a given YouTube playlist identifier.
 
+  - *Currently, gives only the first 100 videos.* 
+
 - `youtube-transcript` extracts the captions of the video, if they exist.
 
-  - The transcript is returned as plain text.
+  - The transcript can be returned as plain text, array of hashmaps, JSON string.
 
   - The YouTube Data API has usage quotas.
 
@@ -55,13 +65,11 @@ Get the video identifiers of the YouTube playlist with identifier `$id`:
 
   - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
 
-- The subs `youtube-metadata`, `youtube-playlist`, and `youtube-transript` work with strings that are identifiers or (full) URLs.
-
 -----
 
 ## Examples
 
-### Metaadata
+### Metadata
 
 Get the metadata associated with a YouTube video identifier:
 
@@ -90,6 +98,14 @@ use LLM::Functions;
 use LLM::Prompts;
 
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
+```
+
+Get the transcript as a dataset:
+
+```raku, results=asis
+my @t = youtube-transcript('S_3e7liz4KM', format => 'dataset');
+
+@t.head(10) ==> to-html(field-names => <time duration content>, align => 'left')
 ```
 
 ### Playlists
@@ -122,12 +138,14 @@ youtube-transcript --help
 
 - [ ] TODO Implementation
   - [X] DONE Get transcript for a video identifier
-  - [X] DONE Video identifiers for a playlist
   - [X] DONE Video metadata retrieval
+  - [ ] TODO Video identifiers for a playlist
+    - [X] DONE For playlists with ≤ 100 videos
+    - [ ] TODO Large playlists
   - [ ] TODO Different transcript output formats
     - [X] DONE Text
-    - [ ] TODO JSON
-    - [ ] TODO Pretty
+    - [X] DONE Dataset (array of hashmap records)
+    - [X] DONE JSON
     - [ ] TODO WebVTT
     - [ ] TODO SRT
   - [ ] Implement versions of the subs using a YouTube API key
