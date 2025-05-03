@@ -80,7 +80,7 @@ use Data::Translators;
 youtube-metadata('S_3e7liz4KM') 
 ==> to-html(align => 'left')
 ```
-<table border="1"><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>view-count</th><td align=left>139 views</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr></table>
+<table border="1"><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>view-count</th><td align=left>139 views</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr></table>
 
 
 ### Transcripts
@@ -116,7 +116,7 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This design review discusses the creation of an LLM graph, a tool for orchestrating and managing asynchronous calls to LLMs, supporting complex workflows. The LLM graph allows for chaining LLM functions, which can be templates or code, and includes features like conditional execution and list processing. The review also covers the syntax, including the use of "LLM function" for LLM calls, "node function" for code, and "test function" for conditional logic within the graph.
+# This language design review introduces LLM graphs, which orchestrate calls to LLMs for complex workflows, including asynchronous execution.  LLM graphs use nodes containing prompts or code (node functions) that can depend on each other, with inputs and outputs managed through associations.  The design includes features like listable templates and conditional execution, and it aims to provide a powerful, yet simple, way to build agentic workflows.
 ```
 
 Get the transcript as a dataset:
@@ -170,9 +170,10 @@ youtube-transcript --help
 ```
 ```
 # Usage:
-#   youtube-transcript <id> -- Get YouTube transcripts.
+#   youtube-transcript <id> [--format=<Str>] -- Get YouTube transcripts.
 #   
-#     <id>    Video identifier
+#     <id>              Video identifier
+#     --format=<Str>    Format of the result, one of 'text', 'dataset', or 'json'. [default: 'text']
 ```
 
 -----
