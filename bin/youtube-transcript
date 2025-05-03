@@ -3,9 +3,17 @@ use v6.d;
 
 use WWW::YouTube;
 
+my %*SUB-MAIN-OPTS =
+        :named-anywhere,
+        # allow named variables at any location
+        ;
+
 #| Get YouTube transcripts.
 sub MAIN(
-        Str:D $id #= Video identifier
+        Str:D $id,                #= Video identifier
+        Str:D :$format = 'text',  #= Format of the result, one of 'text', 'dataset', or 'json'.
          ) {
-    say youtube-transcript($id);
+    my $res = youtube-transcript($id, :$format);
+    if $format.lc ∈ <dataset raku> { $res .= raku }
+    say $res;
 }
