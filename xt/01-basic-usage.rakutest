@@ -5,11 +5,18 @@ use Test;
 plan *;
 
 ## 1
-my $t = youtube-transcript('ewU83vHwN8Y');
-isa-ok $t, Str:D, 'got string';
+my $t1 = youtube-transcript('ewU83vHwN8Y');
+isa-ok $t1, Str:D, 'got string';
 
 ## 2
-say $t.chars;
-is 36_000 < $t.chars < 39_000, True, 'expected length';
+#say $t1.chars;
+is 36_000 < $t1.chars < 39_000, True, 'expected length';
+
+## 3
+my $t3 = youtube-transcript('ewU83vHwN8Y', format => 'dataset');
+is $t3 ~~ (Array:D | List:D | Seq:D), True, 'got Array|List|Seq';
+
+## 4
+is $t3.all ~~ Map:D, True, 'array of hashmaps';
 
 done-testing;
