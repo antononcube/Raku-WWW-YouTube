@@ -70,7 +70,7 @@ sub youtube-transcript(Str:D $videoID, :$format is copy = 'text') is export {
     # Process format
     if $format.isa(Whatever) { $format = 'text'}
     die 'The value of $format is expected to be Whatever or one of "text", "dataset", "json"'
-    unless $format ~~ Str:D && $format.lc ∈ <text dataset raku json>;
+    unless $format ~~ Str:D && $format.lc ∈ <text txt plaintext dataset raku json>;
 
     # Construct video URL
     my $pre = 'https://www.youtube.com/watch?v=';
@@ -104,12 +104,12 @@ sub youtube-transcript(Str:D $videoID, :$format is copy = 'text') is export {
 
     return do given $format.lc {
 
-        when 'text' {
+        when $_ ∈ <text txt plaintext> {
             my @lines = do with $transcript.match(/ '<text start=' .+? '>' $<content>=(.*?) '</text>' /):g { $/».<content>».Str };
             @lines.join("\n").subst( '&amp;#39;', '\''):g
         }
 
-        when $_ ∈ <dataset raku json> {
+        when $_ ∈ <table dataset raku json> {
             my @records = do with $transcript.match(/ '<text start="' $<time>=(.+?) '"' \s* 'dur="' $<duration>=(.+?) '">' $<content>=(.*?) '</text>' /):g {
                 $/.map({ %( time => $_<time>.Numeric, duration => $_<duration>.Numeric, content => $_<content>.Str.subst( '&amp;#39;', '\''):g ) })
             };
