@@ -19,4 +19,9 @@ is $t3 ~~ (Array:D | List:D | Seq:D), True, 'got Array|List|Seq';
 ## 4
 is $t3.all ~~ Map:D, True, 'array of hashmaps';
 
+## 5
+# See issue:
+# https://github.com/antononcube/Raku-WWW-YouTube/issues/1
+isa-ok youtube-metadata('https://youtu.be/6uCIoonlybk'), Map:D, 'working with https://youtu.be/';
+
 done-testing;
