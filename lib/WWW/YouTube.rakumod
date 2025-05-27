@@ -13,7 +13,8 @@ use JSON::Fast;
 sub youtube-metadata(Str:D $videoID, :$not-available-mark = 'N/A') is export {
     # Construct video URL
     my $pre = 'https://www.youtube.com/watch?v=';
-    my $url = $videoID.starts-with($pre) ?? $videoID !! $pre ~ $videoID;
+    my $pre2 = 'https://youtu.be/';
+    my $url = $videoID.starts-with($pre) || $videoID.starts-with($pre2) ?? $videoID !! $pre ~ $videoID;
 
     # Fetch the video page
     my $ua = HTTP::UserAgent.new;
@@ -74,7 +75,8 @@ sub youtube-transcript(Str:D $videoID, :$format is copy = 'text') is export {
 
     # Construct video URL
     my $pre = 'https://www.youtube.com/watch?v=';
-    my $url = $videoID.starts-with($pre) ?? $videoID !! $pre ~ $videoID;
+    my $pre2 = 'https://youtu.be/';
+    my $url = $videoID.starts-with($pre) || $videoID.starts-with($pre2) ?? $videoID !! $pre ~ $videoID;
 
     # Fetch the video page
     my $ua = HTTP::UserAgent.new;
