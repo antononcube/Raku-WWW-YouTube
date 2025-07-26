@@ -65,6 +65,12 @@ zef install https://github.com/antononcube/Raku-WWW-YouTube.git
 
   - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
 
+- `youtube-transcript` has an option `:$method` which specifies should the transcript be retrieved using either:
+     - Delegation to `youtube_transcript_api` CLI provided by the Python package ["youtube-transcript-api"](https://pypi.org/project/youtube-transcript-api/), [JDp1]
+       - When `:$method` can be given the values "python", "cli", "python-cli".
+     - Raku's ["HTTP::UserAgent"](https://raku.land/zef:raku-community-modules/HTTP::UserAgent)
+       - When `:$method` is given the values "raku", "http", "raku-http". 
+
 -----
 
 ## Examples
@@ -142,7 +148,8 @@ youtube-transcript --help
   - [ ] TODO Video identifiers for a playlist
     - [X] DONE For playlists with ≤ 100 videos
     - [ ] TODO Large playlists
-  - [ ] TODO Different transcript output formats
+  - [X] Delegation to the Python package ["youtube-transcript-api"](https://pypi.org/project/youtube-transcript-api/)
+  - [ ] TODO Different transcript output formats (for the Raku-HTTP method)
     - [X] DONE Text
     - [X] DONE Dataset (array of hashmap records)
     - [X] DONE JSON
@@ -161,3 +168,9 @@ youtube-transcript --help
 [YouTubeTranscript](https://resources.wolframcloud.com/FunctionRepository/resources/YouTubeTranscript/),
 (2025),
 [Wolfram Function Repository](https://resources.wolframcloud.com/FunctionRepository/).
+
+[JDp1] Jonas Depoix,
+[youtube-transcript-api Python package](https://github.com/jdepoix/youtube-transcript-api),
+(2018-2025),
+[GitHub/jdepoix](https://github.com/jdepoix/).
+(At [PyPI.org](https://pypi.org/project/youtube-transcript-api/).)

@@ -65,6 +65,12 @@ zef install https://github.com/antononcube/Raku-WWW-YouTube.git
 
   - From "captionTracks" the "baseURL" string is extracted, which is the URL to fetch the caption content.
 
+- `youtube-transcript` has an option `:$method` which specifies should the transcript be retrieved using either:
+     - Delegation to `youtube_transcript_api` CLI provided by the Python package ["youtube-transcript-api"](https://pypi.org/project/youtube-transcript-api/), [JDp1]
+       - When `:$method` can be given the values "python", "cli", "python-cli".
+     - Raku's ["HTTP::UserAgent"](https://raku.land/zef:raku-community-modules/HTTP::UserAgent)
+       - When `:$method` is given the values "raku", "http", "raku-http". 
+
 -----
 
 ## Examples
@@ -80,7 +86,7 @@ use Data::Translators;
 youtube-metadata('S_3e7liz4KM') 
 ==> to-html(align => 'left')
 ```
-<table border="1"><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>view-count</th><td align=left>139 views</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr></table>
+<table border="1"><tr><th>channel-title</th><td align=left>N/A</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>view-count</th><td align=left>144 views</td></tr></table>
 
 
 ### Transcripts
@@ -93,18 +99,20 @@ say $transcript.chars;
 say $transcript.substr(^300);
 ```
 ```
-# 36700
+# 36785
 # Hi everyone, welcome to a wolf from
 # language design review for version 14.3.
-# We are talking about LLM
-# graph. So,
-# okay. So this is for the purpose of of
+# We are talking about LLM graph.
+# So
+# okay.
+# So this is for the purpose of of
 # knitting together LLM calls like LLM
-# function type calls.
-# Exactly.
-# To support more complex workflows
-# um and and to have asynchronous calls to
+# function type calls. Exactly. To
+# support more complex workflows
+# um
+# and and to have asynchronous calls to
 # LLMs.
+# Y
 ```
 
 Summarize using a Large Language Model (LLM):
@@ -116,7 +124,9 @@ use LLM::Prompts;
 llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
 ```
 ```
-# This language design review introduces LLM graphs, which orchestrate calls to LLMs for complex workflows, including asynchronous execution.  LLM graphs use nodes containing prompts or code (node functions) that can depend on each other, with inputs and outputs managed through associations.  The design includes features like listable templates and conditional execution, and it aims to provide a powerful, yet simple, way to build agentic workflows.
+#ERROR: No such method 'payload' for invocant of type
+#ERROR: 'X::TypeCheck::Binding::Parameter'
+# Nil
 ```
 
 Get the transcript as a dataset:
@@ -170,10 +180,11 @@ youtube-transcript --help
 ```
 ```
 # Usage:
-#   youtube-transcript <id> [--format=<Str>] -- Get YouTube transcripts.
+#   youtube-transcript <id> [-f|--format=<Str>] [-m|--method=<Str>] -- Get YouTube transcripts.
 #   
-#     <id>              Video identifier
-#     --format=<Str>    Format of the result, one of 'text', 'dataset', or 'json'. [default: 'text']
+#     <id>                 Video identifier.
+#     -f|--format=<Str>    Format of the result, one of 'text', 'dataset', or 'json'. [default: 'text']
+#     -m|--method=<Str>    Method to use, one of 'Whatever', 'http', 'raku', 'raku-http', 'cli', 'python', 'python-cli'. [default: 'Whatever']
 ```
 
 -----
@@ -186,7 +197,8 @@ youtube-transcript --help
   - [ ] TODO Video identifiers for a playlist
     - [X] DONE For playlists with ≤ 100 videos
     - [ ] TODO Large playlists
-  - [ ] TODO Different transcript output formats
+  - [X] Delegation to the Python package ["youtube-transcript-api"](https://pypi.org/project/youtube-transcript-api/)
+  - [ ] TODO Different transcript output formats (for the Raku-HTTP method)
     - [X] DONE Text
     - [X] DONE Dataset (array of hashmap records)
     - [X] DONE JSON
@@ -205,3 +217,9 @@ youtube-transcript --help
 [YouTubeTranscript](https://resources.wolframcloud.com/FunctionRepository/resources/YouTubeTranscript/),
 (2025),
 [Wolfram Function Repository](https://resources.wolframcloud.com/FunctionRepository/).
+
+[JDp1] Jonas Depoix,
+[youtube-transcript-api Python package](https://github.com/jdepoix/youtube-transcript-api),
+(2018-2025),
+[GitHub/jdepoix](https://github.com/jdepoix/).
+(At [PyPI.org](https://pypi.org/project/youtube-transcript-api/).)
