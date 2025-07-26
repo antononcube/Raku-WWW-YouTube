@@ -66,11 +66,30 @@ sub youtube-playlist(Str:D $playlistID) is export {
 #==========================================================
 
 #| Get transcript of a video.
-sub youtube-transcript(Str:D $videoID, :$format is copy = 'text') is export {
+sub youtube-transcript(Str:D $videoID, :$format = 'text', :$method is copy = Whatever) is export {
+
+    # Process method
+    if $method.isa(Whatever) { $method = 'python'}
+    die 'The value of $method is expected to be Whatever or one of "python", "cli", "raku", "http".'
+    unless $method ~~ Str:D && $method.lc ∈ <cli python python-cli raku http raku-http>;
+
+    # Delegate
+    return do given $method {
+        when $_.lc (elem) <python cli python-cli> {
+            python-youtube-transcript($videoID, :$format)
+        }
+        when $_.lc (elem) <raku http raku-http> {
+            raku-youtube-transcript($videoID, :$format)
+        }
+    }
+}
+
+# Raku HTTP method
+sub raku-youtube-transcript(Str:D $videoID, :$format is copy = 'text') {
 
     # Process format
     if $format.isa(Whatever) { $format = 'text'}
-    die 'The value of $format is expected to be Whatever or one of "text", "dataset", "json"'
+    die 'Whenn $method is "raku" or "http" the value of $format is expected to be Whatever or one of "text", "dataset", "json".'
     unless $format ~~ Str:D && $format.lc ∈ <text txt plaintext dataset raku json>;
 
     # Construct video URL
@@ -118,5 +137,26 @@ sub youtube-transcript(Str:D $videoID, :$format is copy = 'text') is export {
 
             $_ eq 'json' ?? to-json(@records) !! @records
         }
+    }
+}
+
+# Python CLI method
+sub python-youtube-transcript(Str:D $video-id, :$format = Whatever) {
+
+    # Process format
+    if $format.isa(Whatever) { $format = 'text'}
+    die 'When $method is "cli" or "python" the value of $format is expected to be Whatever or one of "text", "pretty", "json", "webvtt", "srt".'
+    unless $format ~~ Str:D && $format.lc ∈ <json pretty text webvtt srt>;
+
+    my @cmd = 'youtube_transcript_api', $video-id, '--format', $format;
+
+    my $proc = run(|@cmd, :out, :err);
+
+    if $proc.exitcode == 0 {
+        my $output = $proc.out.slurp(:close);
+        return $output;
+    } else {
+        note "Failed to fetch transcript. Error:\n" ~ $proc.err.slurp(:close);
+        return Nil;
     }
 }

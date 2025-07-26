@@ -10,10 +10,12 @@ my %*SUB-MAIN-OPTS =
 
 #| Get YouTube transcripts.
 sub MAIN(
-        Str:D $id,                #= Video identifier
-        Str:D :$format = 'text',  #= Format of the result, one of 'text', 'dataset', or 'json'.
+        Str:D $id,                       #= Video identifier.
+        Str:D :f(:$format) = 'text',     #= Format of the result, one of 'text', 'dataset', or 'json'.
+        Str:D :m(:$method) = 'Whatever', #= Method to use, one of 'Whatever', 'http', 'raku', 'raku-http', 'cli', 'python', 'python-cli'.
          ) {
-    my $res = youtube-transcript($id, :$format);
+    if ($method.lc eq 'whatever') { $method = 'python' }
+    my $res = youtube-transcript($id, :$format, :$method);
     if $format.lc ∈ <dataset raku> { $res .= raku }
     say $res;
 }
