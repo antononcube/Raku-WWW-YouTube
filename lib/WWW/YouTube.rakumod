@@ -70,7 +70,7 @@ sub youtube-transcript(Str:D $videoID, :$format = 'text', :$method is copy = Wha
 
     # Process method
     if $method.isa(Whatever) { $method = 'python'}
-    die 'The value of $method is expected to be Whatever or one of "python", "cli", "raku", "http".'
+    die 'The value of \$method is expected to be Whatever or one of "python", "cli", "raku", "http".'
     unless $method ~~ Str:D && $method.lc ∈ <cli python python-cli raku http raku-http>;
 
     # Delegate
@@ -89,7 +89,7 @@ sub raku-youtube-transcript(Str:D $videoID, :$format is copy = 'text') {
 
     # Process format
     if $format.isa(Whatever) { $format = 'text'}
-    die 'Whenn $method is "raku" or "http" the value of $format is expected to be Whatever or one of "text", "dataset", "json".'
+    die 'When \$method is "raku" or "http" the value of \$format is expected to be Whatever or one of "text", "dataset", "json".'
     unless $format ~~ Str:D && $format.lc ∈ <text txt plaintext dataset raku json>;
 
     # Construct video URL
@@ -141,12 +141,18 @@ sub raku-youtube-transcript(Str:D $videoID, :$format is copy = 'text') {
 }
 
 # Python CLI method
-sub python-youtube-transcript(Str:D $video-id, :$format = Whatever) {
+sub python-youtube-transcript(Str:D $video-id, :$format is copy = Whatever) {
 
     # Process format
     if $format.isa(Whatever) { $format = 'text'}
-    die 'When $method is "cli" or "python" the value of $format is expected to be Whatever or one of "text", "pretty", "json", "webvtt", "srt".'
-    unless $format ~~ Str:D && $format.lc ∈ <json pretty text webvtt srt>;
+    die 'When \$method is "cli" or "python" the value of \$format is expected to be Whatever or one of "text", "pretty", "json", "webvtt", "srt", "dataset".'
+    unless $format ~~ Str:D && $format.lc ∈ <json pretty text webvtt srt dataset>;
+
+    my $datasetRequest = False;
+    if $format.lc eq 'dataset' {
+        $datasetRequest = True;
+        $format = 'json'
+    }
 
     my @cmd = 'youtube_transcript_api', $video-id, '--format', $format;
 
@@ -154,7 +160,8 @@ sub python-youtube-transcript(Str:D $video-id, :$format = Whatever) {
 
     if $proc.exitcode == 0 {
         my $output = $proc.out.slurp(:close);
-        return $output;
+        # The Python scripts works with multiple video IDs, so it returns a list of transcripts.
+        return $datasetRequest ?? from-json($output).head.map({ <time duration content>.Array Z=> $_<start duration text> })>>.Hash.Array !! $output;
     } else {
         note "Failed to fetch transcript. Error:\n" ~ $proc.err.slurp(:close);
         return Nil;
