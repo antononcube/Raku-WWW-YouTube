@@ -86,7 +86,7 @@ use Data::Translators;
 youtube-metadata('S_3e7liz4KM') 
 ==> to-html(align => 'left')
 ```
-<table border="1"><tr><th>channel-title</th><td align=left>N/A</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>view-count</th><td align=left>144 views</td></tr></table>
+<table border="1"><tr><th>view-count</th><td align=left>144 views</td></tr><tr><th>publish-date</th><td align=left>2024-11-28T11:24:44-08:00</td></tr><tr><th>channel-title</th><td align=left>N/A</td></tr><tr><th>description</th><td align=left>Computationally neat examples with Raku packages featuring graphs and graph plots. (3rd set.)\n\nHere is the presentation Jupyter notebook: https://github.com/antononcube/RakuForPrediction-blog/blob/main/Presentations/Notebooks/Graph-neat-examples-set-3.ipynb\n\n------------------\n\nPlease, consider buying me a coffee: https://buymeacoffee.com/antonov70</td></tr><tr><th>title</th><td align=left>Graph neat examples in Raku (Set 3)</td></tr></table>
 
 
 ### Transcripts
@@ -121,12 +121,10 @@ Summarize using a Large Language Model (LLM):
 use LLM::Functions;
 use LLM::Prompts;
 
-llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
+llm-synthesize(llm-prompt('Summarize')($transcript), e => 'ChatGPT')
 ```
 ```
-#ERROR: No such method 'payload' for invocant of type
-#ERROR: 'X::TypeCheck::Binding::Parameter'
-# Nil
+# The text discusses the design review of the LLM graph in version 14.3, focusing on the concept of LLM graph, asynchronous calls, and orchestrating LLM calls. The design includes features like template slots, listable templates, condition functions, and test functions to control node behavior based on conditions. The discussion also touches on the naming conventions for different functions within the graph, such as template, node function, and test function, to clarify their roles and usage in the LLM graph.
 ```
 
 Get the transcript as a dataset:

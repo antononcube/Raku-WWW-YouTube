@@ -103,7 +103,7 @@ Summarize using a Large Language Model (LLM):
 use LLM::Functions;
 use LLM::Prompts;
 
-llm-synthesize(llm-prompt('Summarize')($transcript), e => 'Gemini')
+llm-synthesize(llm-prompt('Summarize')($transcript), e => 'ChatGPT')
 ```
 
 Get the transcript as a dataset:
